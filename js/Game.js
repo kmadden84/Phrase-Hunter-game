@@ -1,6 +1,5 @@
 const phrases = ['HEAD IN THE CLOUDS', 'DEAD AS A DOORNAIL', 'DUMB AS A ROCK', 'LET SLEEPING DOGS LIE', 'BACK TO THE DRAWING BOARD'];
 
-
 class Game {
     constructor(missed = 0, phrases, activePhrase) {
         this.phrases = phrases;
