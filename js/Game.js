@@ -15,7 +15,7 @@ class Game {
         // restore hearts
         $('#scoreboard ol li').removeClass('tried').addClass('tries');
         $('.tries img').attr('src', 'images/liveHeart.png');
-  
+
         //random phrase
         this.activePhrase = this.getRandomPhrase();
 
@@ -23,7 +23,7 @@ class Game {
 
         $('#phrase ul li').remove();
 
-       	// on restart, reset life count
+        // on restart, reset life count
         this.missed = 0;
 
         // add new phrase
@@ -52,22 +52,29 @@ class Game {
         return letter;
     }
 
-    handleInteraction(e) {
-        const selection = e.target;
-        const selectionUpper = $(e.target).text().toUpperCase();
-        const selector = "#phrase li:contains(" + selectionUpper + ")";
+    handleInteraction(click, keyPress, upperKeyPress) {
 
-        // if button text not contained in phrase, add wrong class to button {
-            if ($(selector).length <=0) {
-                $(selection).addClass('wrong');
-            }
-        
+        const selection = click;
+        const selectionUpper = $(selection).text().toUpperCase();
+        const selector = "#phrase li:contains(" + selectionUpper + ")";
+        const selectedKey = "#phrase li:contains(" + upperKeyPress + ")";
+        //if button text not contained in phrase, add wrong class to button {
+
+        console.log(upperKeyPress);
+
+        if ($(selector).length <= 0) {
+            $(selection).addClass('wrong');
+        }
+        if ($(selectedKey).length <= 0) {
+            $("#qwerty button:contains(" + keyPress + ")").addClass('wrong');
+        }
+
         //send key selection and phrase arguments to checkLetter Method
-        phrase.checkLetter(selectionUpper, this.activePhrase);
+        phrase.checkLetter(selectionUpper, upperKeyPress, this.activePhrase);
 
         //disable key button on click
- 		$(selection).attr('disabled', true).addClass('disabled');
-
+        $(selection).attr('disabled', true).addClass('disabled');
+        $("#qwerty button:contains(" + keyPress + ")").attr('disabled', true).addClass('disabled');
     }
     checkForWin() {
         var winner = $("li").not("li.space").hasClass('hide');
@@ -77,11 +84,9 @@ class Game {
         }
     }
     removeLife() {
-        // if ($('#phrase li').text().indexOf(selection) < 0) {
         this.missed += 1;
         $('#scoreboard ol').children('li.tries:first').removeClass('tries').addClass('tried');
         $('.tried img').attr('src', 'images/lostHeart.png');
-        //}
         if (this.missed == 5) {
             this.gameOver()
         }

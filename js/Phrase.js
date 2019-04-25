@@ -7,9 +7,9 @@ class Phrase {
         $('#phrase ul li').remove();
         this._addPhraseToDisplay = $('#phrase ul').append(phrase);
     }
-    checkLetter(value, array) {    
-        if ($(array).hasClass(value)) {
-            this.showMatchedLetter(value);
+    checkLetter(clickValue, keyValue, array) {
+        if ($(array).hasClass(clickValue) || $(array).hasClass(keyValue)) {
+            this.showMatchedLetter(clickValue, keyValue);
             game.checkForWin();
             return true;
         } else {
@@ -17,8 +17,11 @@ class Phrase {
             return false;
         }
     }
-    showMatchedLetter(value) {
-        var selector = "li:contains(" + value + ")";
-        $(selector).removeClass('hide').addClass('show');
+    showMatchedLetter(clickValue, keyValue) {
+        $('#phrase li').each(function() {
+            if ($(this).text() == clickValue || $(this).hasClass(keyValue)) {
+                $(this).removeClass('hide').addClass('show');
+            }
+        })
     }
 }

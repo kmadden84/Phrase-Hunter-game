@@ -10,13 +10,18 @@ const startButton = document.getElementById('btn__reset');
 const keyRow = document.getElementById('qwerty');
 
 $('#btn__reset').on('click', function() {
- 	game.startGame();
- });
-
-
-
+    game.startGame();
+});
 
 $('#qwerty button.key').on('click', function(event) {
-game.handleInteraction(event);
- })
+    var screenletter = event.target;
+    game.handleInteraction(screenletter, undefined);
+})
 
+$(document).on("keypress", (event) => {
+    var letter = event.keyCode;
+    var lowerLetter = String.fromCharCode(letter);
+    var upperLetter = String.fromCharCode(letter).toUpperCase();
+    //console.log(upperLetter)
+    game.handleInteraction(undefined, lowerLetter, upperLetter);
+});
