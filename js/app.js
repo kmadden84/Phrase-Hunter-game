@@ -20,6 +20,11 @@ $('#qwerty button.key').on('click', function(event) {
 
 $(document).on("keypress", (event) => {
     var letter = event.keyCode;
+
+    if (letter < 97 || letter > 122 || $('#overlay').hasClass('lose') || $('#overlay').hasClass('win')) {
+        return false;
+    }
+    console.log(letter);
     var lowerLetter = String.fromCharCode(letter);
     var upperLetter = String.fromCharCode(letter).toUpperCase();
     //console.log(upperLetter)
