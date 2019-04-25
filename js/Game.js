@@ -20,7 +20,6 @@ class Game {
         this.activePhrase = this.getRandomPhrase();
 
         //on restart, clear exixing phrase
-
         $('#phrase ul li').remove();
 
         // on restart, reset life count
@@ -30,10 +29,17 @@ class Game {
         phrase.addPhraseToDisplay(this.activePhrase);
 
         //on restart, re-enable button if disabled
-        $('button.key').attr('disabled', false);
-        //on restart, remove wrong class if present
-        $('button.key').removeClass('wrong disabled');
-    }
+        if ($('button.key').attr('disabled') == true) {
+            ('button.key').attr('disabled', false);
+        }
+        //on restart, remove wrong/disabled class if present
+        if ($('button.key').hasClass('wrong') || $('button.key').hasClass('disabled')) {     
+            $('button.key').removeClass('wrong disabled');
+        }
+        //on restart, remove win/lose classes if present
+        if($('#overlay').hasClass('lose') || $('#overlay').hasClass('win'))
+        $('#overlay').removeClass('win lose');
+        }  
     getRandomPhrase() {
         // randomly retrieves one phrase from the phrases array
         const randomNumber = Math.floor(Math.random() * 5);
