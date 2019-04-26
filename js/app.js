@@ -20,11 +20,14 @@ $('#qwerty button.key').on('click', function(event) {
 
 $(document).on("keypress", (event) => {
     var letter = event.keyCode;
-
-    if (letter < 97 || letter > 122 || $('#overlay').hasClass('lose') || $('#overlay').hasClass('win')) {
-        return false;
+    if (letter < 97 || letter > 122) {
+        if (letter = 12 && $('#overlay').css('display') != 'none') {
+            console.log(letter);
+            game.startGame();
+        }
+    } else {
+        var lowerLetter = String.fromCharCode(letter);
+        var upperLetter = String.fromCharCode(letter).toUpperCase();
+        game.handleInteraction(undefined, lowerLetter, upperLetter);
     }
-    var lowerLetter = String.fromCharCode(letter);
-    var upperLetter = String.fromCharCode(letter).toUpperCase();
-    game.handleInteraction(undefined, lowerLetter, upperLetter);
 });
