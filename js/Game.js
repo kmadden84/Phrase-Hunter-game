@@ -1,10 +1,14 @@
-const phrases = ['HEAD IN THE CLOUDS', 'DEAD AS A DOORNAIL', 'DUMB AS A ROCK', 'LET SLEEPING DOGS LIE', 'BACK TO THE DRAWING BOARD'];
-
 class Game {
-    constructor(missed = 0, phrases, activePhrase) {
-        this.phrases = phrases;
+    constructor(missed, phrases, activePhrase) {
+        this.phrases = [
+                'HEAD IN THE CLOUDS', 
+                'DEAD AS A DOORNAIL', 
+                'DUMB AS A ROCK', 
+                'LET SLEEPING DOGS LIE', 
+                'BACK TO THE DRAWING BOARD'
+        ];
         this.activePhrase = null;
-        this.missed = missed;
+        this.missed = 0;
 
     }
     startGame() {
@@ -29,21 +33,19 @@ class Game {
         phrase.addPhraseToDisplay(this.activePhrase);
 
         //on restart, re-enable button if disabled
-        if ($('button.key').attr('disabled') == true) {
-            ('button.key').attr('disabled', false);
-        }
+            $('button.key').prop("disabled", false);
+
         //on restart, remove wrong/disabled class if present
-        if ($('button.key').hasClass('wrong') || $('button.key').hasClass('disabled')) {     
-            $('button.key').removeClass('wrong disabled');
-        }
+            $('button.key').removeClass('wrong chosen');
+
         //on restart, remove win/lose classes if present
-        if($('#overlay').hasClass('lose') || $('#overlay').hasClass('win'))
         $('#overlay').removeClass('win lose');
+
         }  
     getRandomPhrase() {
         // randomly retrieves one phrase from the phrases array
         const randomNumber = Math.floor(Math.random() * 5);
-        const selectedPhrase = phrases[randomNumber];
+        const selectedPhrase = this.phrases[randomNumber];
         let letter = '';
 
         // creates HTML from array of prases
@@ -64,10 +66,8 @@ class Game {
         const selectionUpper = $(selection).text().toUpperCase();
         const selector = "#phrase li:contains(" + selectionUpper + ")";
         const selectedKey = "#phrase li:contains(" + upperKeyPress + ")";
+
         //if button text not contained in phrase, add wrong class to button {
-
-        console.log(upperKeyPress);
-
         if ($(selector).length <= 0) {
             $(selection).addClass('wrong');
         }
@@ -79,8 +79,8 @@ class Game {
         phrase.checkLetter(selectionUpper, upperKeyPress, this.activePhrase);
 
         //disable key button on click
-        $(selection).attr('disabled', true).addClass('disabled');
-        $("#qwerty button:contains(" + keyPress + ")").attr('disabled', true).addClass('disabled');
+        $(selection).attr('disabled', true).addClass('chosen');
+        $("#qwerty button:contains(" + keyPress + ")").attr('disabled', true).addClass('chosen');
     }
     checkForWin() {
         var winner = $("li").not("li.space").hasClass('hide');
